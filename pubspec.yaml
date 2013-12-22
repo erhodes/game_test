@@ -1,0 +1,5 @@
+name: game_test
+description: A sample web application
+dependencies:
+  browser: any
+  game_loop: any
