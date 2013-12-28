@@ -1,6 +1,8 @@
 import 'dart:html';
 import 'package:game_loop/game_loop_html.dart';
 import 'Character.dart';
+import 'Block.dart';
+import 'Grid.dart';
 
 void main() {
   CanvasElement canvasElement = querySelector("#myCanvas");
@@ -8,6 +10,7 @@ void main() {
   Character char = new Character();
   ctx.fillStyle="#FF0000";
   GameLoopHtml gameLoop = new GameLoopHtml(canvasElement);
+  Grid grid = new Grid(canvasElement.height, canvasElement.width);
   
   int x = 0;
   int y = 0;
@@ -15,6 +18,12 @@ void main() {
   gameLoop.onUpdate = ((gameLoop) {
     // Update game logic here.
     //print('${gameLoop.frame}: ${gameLoop.gameTime} [dt = ${gameLoop.dt}].');
+    if (!grid.occupiedPoint(char.posX, char.posY)){
+      char.impulse(Character.DOWN);
+    }
+    else {
+      char.accelY = 0;
+    }
     if (gameLoop.keyboard.isDown(Keyboard.A)){
       char.impulse(Character.LEFT);
     }if (gameLoop.keyboard.isDown(Keyboard.W)){
@@ -30,6 +39,8 @@ void main() {
     //draw the game into canvasElement
     //clear the screen
     ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+    //draw the background
+    grid.render(ctx);
     //draw the character
     char.render(ctx);
   });
