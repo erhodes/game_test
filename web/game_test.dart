@@ -17,13 +17,13 @@ void main() {
   
   gameLoop.onUpdate = ((gameLoop) {
     // Update game logic here.
-    //print('${gameLoop.frame}: ${gameLoop.gameTime} [dt = ${gameLoop.dt}].');
-    if (!grid.occupiedPoint(char.posX, char.posY)){
-      char.impulse(Character.DOWN);
+    //is the character currently on the ground?
+    if (grid.occupiedPoint(char.posX, char.posY+char.height+1) || grid.occupiedPoint(char.posX+char.width, char.posY+char.height+1)){
+      char.grounded = true;
+    } else{
+      char.grounded = false;
     }
-    else {
-      char.accelY = 0;
-    }
+    //user input stuff
     if (gameLoop.keyboard.isDown(Keyboard.A)){
       char.impulse(Character.LEFT);
     }if (gameLoop.keyboard.isDown(Keyboard.W)){
@@ -32,8 +32,24 @@ void main() {
       char.impulse(Character.DOWN);
     }if (gameLoop.keyboard.isDown(Keyboard.D)){
       char.impulse(Character.RIGHT);
+    } if (gameLoop.keyboard.isDown(Keyboard.SPACE) && char.grounded){
+      char.impulse(Character.UP);
     }
+    
+    if (!char.grounded){
+      char.fall();
+    }
+    
+    
+
     char.move();
+    if (grid.occupiedPoint(char.posX+char.width, char.posY+char.height) || //bottom right corner
+        grid.occupiedPoint(char.posX, char.posY)  ||//top left corner
+        grid.occupiedPoint(char.posX, char.posY+char.height) || //bottom left corner
+        grid.occupiedPoint(char.posX+char.width, char.posY) //top right corner
+        ) {
+      char.revertToLastPosition();
+    }
   });
   gameLoop.onRender = ((gameLoop){
     //draw the game into canvasElement
