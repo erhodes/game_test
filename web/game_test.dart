@@ -12,9 +12,6 @@ void main() {
   GameLoopHtml gameLoop = new GameLoopHtml(canvasElement);
   Grid grid = new Grid(canvasElement.height, canvasElement.width);
   
-  int x = 0;
-  int y = 0;
-  
   gameLoop.onUpdate = ((gameLoop) {
     // Update game logic here.
     //is the character currently on the ground?
@@ -62,13 +59,4 @@ void main() {
   });
   gameLoop.start();
   var timer = gameLoop.addTimer((timer) => print('timer fired.'), 0.5);
-}
-
-void reverseText(MouseEvent event) {
-  var text = querySelector("#sample_text_id").text;
-  var buffer = new StringBuffer();
-  for (int i = text.length - 1; i >= 0; i--) {
-    buffer.write(text[i]);
-  }
-  querySelector("#sample_text_id").text = buffer.toString();
 }
