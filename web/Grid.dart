@@ -13,7 +13,14 @@ class Grid{
   Grid(num h, num w){
     height = h;
     width = w;
-    loadFromString("3,3,0,0,0,0,1,0,1,1,1");
+    String temp = "5,8" +
+        ",0,0,0,0,0,0,0,0" + 
+        ",0,0,1,1,0,0,0,0" +
+        ",0,0,0,0,0,0,0,0" +
+        ",0,0,0,0,0,0,0,0" +
+        ",1,1,1,1,1,1,1,1";
+              
+    loadFromString(temp);
     //vertical_blocks =2;
     //horizontal_blocks = 2;
     h_ppb = width/horizontal_blocks;
@@ -28,10 +35,7 @@ class Grid{
     for (int i = 0; i < vertical_blocks; i++){
       List<Block> row = new List<Block>();
       for (int j = 0; j < horizontal_blocks; j++){
-        if (temp[2+i*horizontal_blocks + j] == '0')
-          row.add(new Block());
-        else
-          row.add(new Block(f:true));
+        row.add(new Block( temp[(2+i*horizontal_blocks + j)].toString()) );
       }
       blocks.add(row);
     }

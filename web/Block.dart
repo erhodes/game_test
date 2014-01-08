@@ -4,13 +4,11 @@ class Block{
   bool filled = false;
   String color;
   
-  Block({bool f: false}){
-    filled = f;
-    if (filled){
-      color = "#00FF00";
+  Block(String type){
+    switch (type){
+      case "0": filled = false;color="#00FFFF";break;
+      case "1": filled = true; color = "#00FF00";break;
     }
-    else{
-      color = "#FFFFFF";
-    }
+    
   }
 }
