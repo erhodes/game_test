@@ -3,12 +3,17 @@ import 'package:game_loop/game_loop_html.dart';
 import 'Character.dart';
 import 'Block.dart';
 import 'Grid.dart';
+import 'Sprite.dart';
+import 'Enemy.dart';
 
 void main() {
   CanvasElement canvasElement = querySelector("#myCanvas");
   CanvasRenderingContext2D ctx = canvasElement.getContext("2d");
-  Character char = new Character();
-  ctx.fillStyle="#FF0000";
+  List<Sprite> sprites = new List<Sprite>();
+  Character char = new Character(10,200);
+  sprites.add(char);
+  sprites.add(new Sprite(200,100));
+  sprites.add(new Enemy(200,300));
   GameLoopHtml gameLoop = new GameLoopHtml(canvasElement);
   Grid grid = new Grid(canvasElement.height, canvasElement.width);
   
@@ -36,10 +41,7 @@ void main() {
     if (!char.grounded){
       char.fall();
     }
-    
-    
-
-    char.move();
+    sprites.forEach( (s) => s.move());
     if (grid.occupiedPoint(char.posX+char.width, char.posY+char.height) || //bottom right corner
         grid.occupiedPoint(char.posX, char.posY)  ||//top left corner
         grid.occupiedPoint(char.posX, char.posY+char.height) || //bottom left corner
@@ -55,7 +57,7 @@ void main() {
     //draw the background
     grid.render(ctx);
     //draw the character
-    char.render(ctx);
+    sprites.forEach( (s) => s.render(ctx));
   });
   gameLoop.start();
   var timer = gameLoop.addTimer((timer) => print('timer fired.'), 0.5);

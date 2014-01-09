@@ -4,8 +4,6 @@ import 'dart:core';
 
 class Grid{
   
- // List<List> blocks =[[new Block(), new Block()],
- //                      [new Block(f:true), new Block(f:true)]];
   List<List> blocks;
   num height, width, vertical_blocks, horizontal_blocks;
   num h_ppb, v_ppb;
@@ -21,8 +19,6 @@ class Grid{
         ",1,1,1,1,1,1,1,1";
               
     loadFromString(temp);
-    //vertical_blocks =2;
-    //horizontal_blocks = 2;
     h_ppb = width/horizontal_blocks;
     v_ppb= height/vertical_blocks;
   }

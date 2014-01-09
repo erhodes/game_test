@@ -1,27 +1,18 @@
 import 'dart:html';
+import 'Sprite.dart';
 
-class Character{
+class Character extends Sprite{
   static const LEFT = 1;
   static const RIGHT = 2;
   static const UP = 3;
   static const DOWN = 4;
   static const IMAGE_WIDTH = 65;
   
-  int posX, posY, width, height, accelX, accelY, speedX, speedY, lastPosX, lastPosY;
   bool grounded;
   String color;
   ImageElement image;
   
-  Character(){
-    color = "#FF0000";
-    posX = 10;
-    posY = 200;
-    accelX = 0;
-    accelY = 0;
-    speedX = 0;
-    speedY = 0;
-    width = 50;
-    height = 80;
+  Character(int x, int y):super(x,y){
     grounded = true;
     image = new ImageElement(src: "char.png",width:50,height:50);
   }
@@ -37,24 +28,6 @@ class Character{
   
   void fall(){
     if (speedY < 8){
-      speedY++;
-    }
-  }
-  
-  void move(){
-    lastPosX = posX;
-    lastPosY = posY;
-    posX+=speedX;
-    posY+=speedY;
-    //decel(accelX);
-    if (speedX > 0){
-      speedX--;
-    } else if (speedX < 0){
-      speedX++;
-    }
-    if (speedY > 0){
-      speedY--;
-    } else if (speedY < 0){
       speedY++;
     }
   }
