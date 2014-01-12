@@ -1,10 +1,45 @@
 import "dart:math";
+import "Sprite.dart";
 
 bool pointInRect(Point p, int x, int y, int width, int height){
   if ((p.x < x) || (p.y < y) || (p.x> (x+width)) || (p.y > (y+height))) {
     return false;
   }else{
     return true;
+  }
+}
+
+bool collidingSprites(Sprite s1, Sprite s2){
+  num x1 = s1.posX;
+  num y1 = s1.posY;
+  num h1 = s1.height;
+  num w1 = s1.width;
+  num x2 = s2.posX;
+  num y2 = s2.posY;
+  num h2 = s2.height;
+  num w2 = s2.width;
+  Point r1 = new Point(x1,y1);
+  Point closestToR1 = closestPointToRect(new Point(x2,y2),
+      new Point(x2+w2,y2),
+      new Point(x2,y2+h2),
+      new Point(x2+w2,y2+h2),r1);
+  if (pointInRect(closestToR1,x1,y1,w1,h1)){
+    return true;
+  }else{
+    return false;
+  }
+}
+
+bool collidingRectangles(num x1, num y1, int w1, int h1, num x2, num y2, int w2, int h2){
+  Point r1 = new Point(x1,y1);
+  Point closestToR1 = closestPointToRect(new Point(x2,y2),
+      new Point(x2+w2,y2),
+      new Point(x2,y2+h2),
+      new Point(x2+w2,y2+h2),r1);
+  if (pointInRect(closestToR1,x1,y1,w1,h1)){
+    return true;
+  }else{
+    return false;
   }
 }
 

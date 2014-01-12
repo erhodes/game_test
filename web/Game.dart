@@ -5,19 +5,23 @@ import 'Sprite.dart';
 import 'Enemy.dart';
 import 'Grid.dart';
 import 'Physics.dart';
+import 'Projectile.dart';
 
 class Game{
   CanvasRenderingContext2D context;
   CanvasElement canvas;
   Keyboard keyboard;
+  Mouse mouse;
   Character char;
   List<Sprite> enemies;
+  List<Projectile> projectiles;
   Grid grid;
   
-  Game(this.canvas, this.keyboard){
+  Game(this.canvas, this.keyboard, this.mouse){
     context = canvas.getContext("2d");
     char = new Character(10,200);
     grid = new Grid(canvas.height, canvas.width);
+    projectiles = new List<Projectile>();
     enemies = new List<Sprite>();
     enemies.add(new Sprite(430,200));
     enemies.add(new Enemy(200,300));
@@ -43,12 +47,16 @@ class Game{
     } if (keyboard.isDown(Keyboard.SPACE) && char.grounded){
       char.impulse(Character.UP);
     }
+    if (keyboard.pressed(Keyboard.F)){
+      projectiles.add(new Projectile(char.posX+char.width,char.posY+10));
+    }
     
     if (!char.grounded){
       char.fall();
     }
     char.move();
     enemies.forEach( (s) => s.move());
+    projectiles.forEach( (s) => s.move());
     //collision with the background logic
     if (collision(grid,char.posX,char.posY,char.width,char.height) ) {
       //this is a collision between the player and impassible terrain. attempt to fix it by reverting to a good location
@@ -64,17 +72,25 @@ class Game{
         char.revertToLastPosition();
       }
     }
-    //collision with other sprites logic
-    //this only works if the character is sprite 0, btw
-    Point pos = new Point(char.posX,char.posY);
+    //is the player colliding with any other sprites?
     for (int i = 0; i < enemies.length;i++){
-      Point closest = closestPointToRect(new Point(enemies[i].posX,enemies[i].posY),
-      new Point(enemies[i].posX+enemies[i].width,enemies[i].posY),
-      new Point(enemies[i].posX,enemies[i].posY+enemies[i].height),
-      new Point(enemies[i].posX+enemies[i].width,enemies[i].posY+enemies[i].height), pos);
-      //is the closest point actually inside the player?
-      if (pointInRect(closest,pos.x,pos.y,char.width,char.height)){
+      if (collidingSprites(char,enemies[i])){
         enemies[i].posX+=50;
+      }
+    }
+    //are projectiles colliding with any enemies?
+    for (int i =0; i < projectiles.length;i++){
+      //actual collision stuff
+      for (int j = 0; j < enemies.length;j++){
+        if (collidingSprites(projectiles[i],enemies[j])){
+          enemies.removeAt(j);
+          j--;
+        }
+      }
+      //is the projectile out of bounds?
+      if ((projectiles[i].posX > canvas.width) || (projectiles[i].posX < 0)){
+        projectiles.removeAt(i);
+        i--;
       }
     }
   }
@@ -85,6 +101,7 @@ class Game{
     //draw the character
     char.render(context);
     enemies.forEach( (s) => s.render(context));
+    projectiles.forEach( (s) => s.render(context));
   }
   
 }

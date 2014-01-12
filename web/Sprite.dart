@@ -3,6 +3,7 @@ import 'dart:html';
 class Sprite{
   ImageElement image;
   int posX, posY,speedX,speedY,accelX,accelY,width,height,lastPosX,lastPosY;
+  Point pos;
   
   Sprite(this.posX, this.posY){
     accelX = 0;

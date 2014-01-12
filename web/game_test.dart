@@ -5,7 +5,7 @@ import 'Game.dart';
 void main() {
   CanvasElement canvasElement = querySelector("#myCanvas");
   GameLoopHtml gameLoop = new GameLoopHtml(canvasElement);
-  Game game = new Game(canvasElement, gameLoop.keyboard);
+  Game game = new Game(canvasElement, gameLoop.keyboard,gameLoop.mouse);
   //GAME LOGIC LOOP
   gameLoop.onUpdate = ((gameLoop) {
     game.update();
