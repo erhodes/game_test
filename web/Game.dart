@@ -65,7 +65,7 @@ class Game{
         char.posX=char.lastPosX;
       }
       //test if we can revert only on the Y axis
-      else if (collision(grid,char.posX,char.lastPosY,char.width,char.height)){
+      else if (!collision(grid,char.posX,char.lastPosY,char.width,char.height)){
         char.posY=char.lastPosY;
       }
       else{
@@ -88,7 +88,8 @@ class Game{
         }
       }
       //is the projectile out of bounds?
-      if ((projectiles[i].posX > canvas.width) || (projectiles[i].posX < 0)){
+      if ((projectiles[i].posX > canvas.width) || (projectiles[i].posX < 0) ||
+          collision(grid,projectiles[i].posX,projectiles[i].posY,projectiles[i].width,projectiles[i].height)){
         projectiles.removeAt(i);
         i--;
       }
