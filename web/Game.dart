@@ -48,7 +48,11 @@ class Game{
       char.impulse(Character.UP);
     }
     if (keyboard.pressed(Keyboard.F)){
-      projectiles.add(new Projectile(char.posX+char.width,char.posY+10));
+      if (char.facingRight){
+        projectiles.add(new Projectile(char.posX+char.width,char.posY+10,20));
+      } else {
+        projectiles.add(new Projectile(char.posX,char.posY+10,-20));
+      }
     }
     
     if (!char.grounded){

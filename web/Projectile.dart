@@ -2,8 +2,8 @@ import 'Sprite.dart';
 
 class Projectile extends Sprite{
   
-  Projectile(int x,int y):super(x,y){
-    speedX = 30;
+  Projectile(int x,int y, int speed):super(x,y){
+    speedX = speed;
     width=20;
     height=10;
   }
